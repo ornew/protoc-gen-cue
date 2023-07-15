@@ -18,7 +18,7 @@ See for more details: [`(protobuf.Config).Module` on pkg.go.dev](https://pkg.go.
 
 ### `imports`
 
-Defaults to ``. `;`-separated. e.g, `.;include;vendor`
+Defaults to empty. `;`-separated. e.g, `.;include;vendor`
 
 See for more details: [`(protobuf.Config).Paths` on pkg.go.dev](https://pkg.go.dev/cuelang.org/go@v0.5.0/encoding/protobuf?utm_source=gopls#Config.Paths)
 
