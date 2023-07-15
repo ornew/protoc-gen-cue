@@ -1,0 +1,9 @@
+version: v1
+plugins:
+  - plugin: cue
+    out: gen
+    opt:
+      - paths=source_relative
+      # - paths=import
+      - imports=vendor
+    path: [go, run, ..]

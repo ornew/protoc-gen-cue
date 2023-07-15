@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package example.proto;
+
+import "cue-lang/cue/encoding/protobuf/cue.proto";
+
+option go_package = "example.proto;v1";
+
+message Foo {
+  int32 age = 1 [(cue.val) = "<150"];
+}
