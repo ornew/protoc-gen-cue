@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package cue;
+
+import "google/protobuf/descriptor.proto";
+
+option go_package = "github.com/ornew/protoc-gen-cue/pkg/options";
+
+message FieldOptions {
+    string expr = 1 [retention = RETENTION_RUNTIME];
+}
+
+extend google.protobuf.FieldOptions {
+    FieldOptions field = 230715;
+}
