@@ -1,11 +1,210 @@
 syntax = "proto3";
 
-package example.proto;
+package example.v1;
 
-import "cue-lang/cue/encoding/protobuf/cue.proto";
+import "cue.proto";
+import "google/protobuf/any.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/struct.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
 
-option go_package = "example.proto;v1";
+option go_package = "github.com/ornew/protoc-gen-cue/example/gen;v1";
 
-message Foo {
-  int32 age = 1 [(cue.val) = "<150"];
+message Message {
+  string field = 1;
+}
+
+enum Enum {
+  ZERO = 0;
+  ONE = 1;
+}
+
+message Basic {
+  Message message = 1;
+  MessageNested message_nested = 2;
+  Enum enum = 3;
+  bool bool = 4;
+  string string = 5;
+  bytes bytes = 6;
+  int32 int32 = 7;
+  fixed32 fixed32 = 8;
+  uint32 uint32 = 9;
+  int64 int64 = 10;
+  fixed64 fixed64 = 11;
+  uint64 uint64 = 12;
+  float float = 13;
+  double double = 14;
+  map<string, string> map_string_string = 20;
+  map<string, Message> map_string_message = 21;
+  map<int32, string> map_key_converted_to_string = 22;
+  map<string, google.protobuf.Int32Value> map_string_int32value = 23;
+  repeated string strings = 30;
+  repeated Message messages = 31;
+  oneof oneof {
+    string oneof_string = 40;
+    Message oneof_message = 41;
+    Enum oneof_enum = 42;
+  }
+  int32 int32_non_optional = 51;
+  optional int32 int32_optional = 52;
+  Message message_non_optional = 53;
+  optional Message message_optional = 54;
+}
+
+message MessageNested {
+  enum InnerEnum {
+    InnerEnum_ZERO = 0;
+    InnerEnum_ONE = 1;
+  }
+  message Inner {
+    enum InnerEnum {
+      Inner_InnerEnum_ZERO = 0;
+      Inner_InnerEnum_ONE = 1;
+    }
+    message Inner {
+      enum InnerEnum {
+        Inner_Inner_InnerEnum_ZERO = 0;
+        Inner_Inner_InnerEnum_ONE = 1;
+      }
+      InnerEnum enum = 1;
+    }
+    InnerEnum inner_enum = 1;
+    Inner.InnerEnum inner_inner_enum = 2;
+  }
+  Inner inner = 1;
+  Inner.Inner inner_inner = 2;
+  InnerEnum inner_enum = 3;
+  Inner.InnerEnum inner_inner_enum = 4;
+  Inner.Inner.InnerEnum inner_inner_inner_enum = 5;
+}
+
+message WellKnownTypes {
+  google.protobuf.Any any = 1;
+  google.protobuf.Struct struct = 2;
+  google.protobuf.Value value = 3;
+  google.protobuf.ListValue list = 4;
+  google.protobuf.NullValue null = 5;
+  google.protobuf.BoolValue bool = 6;
+  google.protobuf.StringValue string = 7;
+  google.protobuf.BytesValue bytes = 8;
+  google.protobuf.Int32Value int32 = 9;
+  google.protobuf.Int64Value int64 = 10;
+  google.protobuf.UInt32Value uint32 = 11;
+  google.protobuf.UInt64Value uint64 = 12;
+  google.protobuf.FloatValue float = 13;
+  google.protobuf.DoubleValue double = 14;
+  google.protobuf.Empty empty = 15;
+  google.protobuf.Timestamp timestamp = 16;
+  google.protobuf.Duration duration = 17;
+  google.protobuf.FieldMask field_mask = 18;
+}
+
+message FieldOptions {
+  string name = 1 [(cue.field).expr = '!="x"'];
+  int32 age = 2 [(cue.field).expr = "<150"];
+  int32 age_of_next_year = 3 [(cue.field).expr = "age+1"];
+}
+
+// enum leading detached
+// enum leading detached
+
+// enum leading
+// enum leading
+enum EnumComment {
+  // enum trailing
+  // enum trailing
+
+  // enum value leading detached
+  // enum value leading detached
+
+  // enum value leading
+  // enum value leading
+  EnumComment_ZERO = 0; // enum value traling
+
+  // enum value leading detached
+  // enum value leading detached
+
+  // enum value leading
+  // enum value leading
+  EnumComment_ONE = 1;
+  // enum value traling
+  // enum value traling
+
+  // unexported comments
+  // unexported comments
+}
+
+// enum leading detached
+// enum leading detached
+
+// enum leading
+// enum leading
+enum EnumCommentRight { // enum trailing
+  // enum value leading detached
+  // enum value leading detached
+
+  // enum value leading
+  // enum value leading
+  EnumCommentRight_ZERO = 0; // enum value traling oneline
+  // unexported comments
+  // unexported comments
+
+  // unexported comments
+  // unexported comments
+}
+
+// message leading detached 2
+// message leading detached 2
+
+// message leading detached 1
+// message leading detached 1
+
+// message leading
+// message leading
+message MessageComment {
+  // message trailing
+  // message trailing
+
+  // message leading detached 2
+  // message leading detached 2
+
+  // message leading detached 1
+  // message leading detached 1
+
+  // message leading
+  // message leading
+  string name = 1;
+  // message field trailing
+  // message field trailing
+
+  // unexported comments
+  // unexported comments
+}
+
+// message leading detached 2
+// message leading detached 2
+
+// message leading detached 1
+// message leading detached 1
+
+// message leading
+// message leading
+message MessageCommentRight { // message trailing
+  // message leading detached 2
+  // message leading detached 2
+
+  // message leading detached 1
+  // message leading detached 1
+
+  // message leading
+  // message leading
+  string name = 1; // message field trailing
+  // unexported comments
+  // unexported comments
+
+  // unexported comments
+  // unexported comments
 }

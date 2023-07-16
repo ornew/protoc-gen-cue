@@ -1,9 +1,12 @@
 version: v1
 plugins:
+  - plugin: go
+    out: gen
+    opt:
+      - paths=source_relative
   - plugin: cue
     out: gen
     opt:
       - paths=source_relative
-      # - paths=import
-      - imports=vendor
-    path: [go, run, github.com/ornew/protoc-gen-cue]
+    # path: [go, run, github.com/ornew/protoc-gen-cue]
+    path: [go, run, ..]
