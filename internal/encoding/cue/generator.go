@@ -22,6 +22,7 @@ import (
 	"os"
 	"regexp"
 	"strconv"
+	"strings"
 
 	"cuelang.org/go/cue/ast"
 	"cuelang.org/go/cue/parser"
@@ -88,13 +89,43 @@ func (g *Generator) AddFile(p string, f *protogen.File) {
 
 func (g *Generator) UseBuiltinType(ctx context.Context, name string) ast.Expr {
 	letIdent := &ast.Ident{
-		Name: "BuiltIn_" + escapeName(name) + "_",
+		Name: strings.ToUpper(name) + "_",
 	}
 	if _, ok := g.lets[name]; !ok {
+		var zero ast.Expr
+		switch name {
+		case "bool":
+			zero = &ast.BasicLit{
+				Kind:  token.STRING,
+				Value: "false",
+			}
+		case "string":
+			zero = &ast.BasicLit{
+				Kind:  token.STRING,
+				Value: `""`,
+			}
+		case "bytes":
+			zero = &ast.BasicLit{
+				Kind:  token.STRING,
+				Value: `''`,
+			}
+		default:
+			zero = &ast.BasicLit{
+				Kind:  token.INT,
+				Value: "0",
+			}
+		}
 		g.lets[name] = &ast.LetClause{
 			Ident: letIdent,
-			Expr: &ast.Ident{
-				Name: name,
+			Expr: &ast.BinaryExpr{
+				X: &ast.UnaryExpr{
+					Op: token.MUL,
+					X:  zero,
+				},
+				Op: token.OR,
+				Y: &ast.Ident{
+					Name: name,
+				},
 			},
 		}
 	}
@@ -318,18 +349,25 @@ func (g *Generator) enumAsDef(ctx context.Context, e *protogen.Enum) (*ast.Field
 		Attrs:    []*ast.Attribute{},
 	}
 	for _, enumItem := range e.Values {
-		id := &ast.BasicLit{
+		var value ast.Expr
+		value = &ast.BasicLit{
 			Kind:  token.STRING,
 			Value: "#" + enumItem.GoIdent.GoName,
 		}
+		if len(e.Values) > 1 && enumItem.Desc.Number() == 0 {
+			value = &ast.UnaryExpr{
+				Op: token.MUL,
+				X:  value,
+			}
+		}
 		if field.Value == nil {
-			field.Value = id
+			field.Value = value
 			continue
 		}
 		field.Value = &ast.BinaryExpr{
 			X:  field.Value,
 			Op: token.OR,
-			Y:  id,
+			Y:  value,
 		}
 	}
 	for _, c := range e.Comments.LeadingDetached {
@@ -453,74 +491,6 @@ func (g *Generator) messageAsDef(ctx context.Context, m *protogen.Message) (*ast
 		}
 	}
 	return cueStruct, nil
-}
-
-func (g *Generator) ResolveFieldType(ctx context.Context, f *protogen.Field) (ast.Expr, error) {
-	switch f.Desc.Kind() {
-	case protoreflect.MessageKind:
-		// if f.Desc.IsMap() {
-		// }
-		if field, err := g.wellKnownTypeMessage(ctx, f.Message); err != nil {
-			return nil, fmt.Errorf("well known type message: %s: %w", f.Desc.Name(), err)
-		} else if field != nil {
-			return field, nil
-		}
-		resolved, err := g.ResolveGoType(ctx, f.Message.GoIdent)
-		if err != nil {
-			return nil, fmt.Errorf("resolve: %w", err)
-		}
-		return resolved, nil
-	case protoreflect.EnumKind:
-		if field, ok, err := g.wellKnownTypeEnum(ctx, f.Enum); err != nil {
-			return nil, fmt.Errorf("well known type enum: %s: %w", f.Desc.Name(), err)
-		} else if ok {
-			return field, nil
-		}
-		resolved, err := g.ResolveGoType(ctx, f.Enum.GoIdent)
-		if err != nil {
-			return nil, fmt.Errorf("resolve: %w", err)
-		}
-		return resolved, nil
-	case protoreflect.BoolKind:
-		return &ast.Ident{
-			Name: "bool",
-		}, nil
-	case protoreflect.StringKind:
-		return &ast.Ident{
-			Name: "string",
-		}, nil
-	case protoreflect.BytesKind:
-		return &ast.Ident{
-			Name: "bytes",
-		}, nil
-	case protoreflect.Int32Kind, protoreflect.Fixed32Kind:
-		return &ast.Ident{
-			Name: "int32",
-		}, nil
-	case protoreflect.Uint32Kind:
-		return &ast.Ident{
-			Name: "uint32",
-		}, nil
-	case protoreflect.Int64Kind, protoreflect.Fixed64Kind:
-		return &ast.Ident{
-			Name: "int64",
-		}, nil
-	case protoreflect.Uint64Kind:
-		return &ast.Ident{
-			Name: "uint64",
-		}, nil
-	case protoreflect.FloatKind:
-		return &ast.Ident{
-			Name: "float32",
-		}, nil
-	case protoreflect.DoubleKind:
-		return &ast.Ident{
-			Name: "float64",
-		}, nil
-	default:
-		// TODO error
-		return nil, fmt.Errorf("unknown kind: %s of %s", f.Desc.Kind().GoString(), f.Desc.Name())
-	}
 }
 
 func (g *Generator) fieldAsField(ctx context.Context, f *protogen.Field) (*ast.Field, error) {

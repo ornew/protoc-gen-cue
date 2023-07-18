@@ -69,7 +69,7 @@ wellKnownTypes: {
 	empty: {}
 	timestamp: "2023-07-17T16:23:00+09:00"
 	duration:  "1h2m3s"
-	fieldMask: paths: ["a.b.c."]
+	fieldMask: paths: ["a.b.c"]
 }
 fieldOptions: #FieldOptions
 fieldOptions: {

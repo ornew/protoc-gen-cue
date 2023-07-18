@@ -2,21 +2,21 @@
 // Versions:
 //     protoc-gen-cue: (unknown)
 //     protoc:         (unknown)
-// Source: foo.proto
+// Source: example/v1/example.proto
 package v1
 
 @protobuf(example.v1,syntax=proto3)
-let BuiltIn_bool_ = bool
-let BuiltIn_bytes_ = bytes
-let BuiltIn_int32_ = int32
-let BuiltIn_float64_ = float64
-let BuiltIn_string_ = string
-let BuiltIn_uint32_ = uint32
-let BuiltIn_int64_ = int64
-let BuiltIn_uint64_ = uint64
-let BuiltIn_float32_ = float32
+let STRING_ = *"" | string
+let BOOL_ = *false | bool
+let UINT64_ = *0 | uint64
+let FLOAT32_ = *0 | float32
+let FLOAT64_ = *0 | float64
+let BYTES_ = *'' | bytes
+let INT32_ = *0 | int32
+let UINT32_ = *0 | uint32
+let INT64_ = *0 | int64
 
-#Enum: #Enum_ZERO | #Enum_ONE
+#Enum: *#Enum_ZERO | #Enum_ONE
 
 #Enum_ZERO: "ZERO"
 
@@ -27,7 +27,7 @@ let BuiltIn_float32_ = float32
 
 // enum leading
 // enum leading
-#EnumComment: #EnumComment_EnumComment_ZERO | #EnumComment_EnumComment_ONE
+#EnumComment: *#EnumComment_EnumComment_ZERO | #EnumComment_EnumComment_ONE
 // enum trailing
 // enum trailing
 
@@ -61,19 +61,19 @@ let BuiltIn_float32_ = float32
 // enum value leading
 #EnumCommentRight_EnumCommentRight_ZERO: "EnumCommentRight_ZERO" // enum value traling oneline
 
-#MessageNested_InnerEnum: #MessageNested_InnerEnum_ZERO | #MessageNested_InnerEnum_ONE
+#MessageNested_InnerEnum: *#MessageNested_InnerEnum_ZERO | #MessageNested_InnerEnum_ONE
 
 #MessageNested_InnerEnum_ZERO: "InnerEnum_ZERO"
 
 #MessageNested_InnerEnum_ONE: "InnerEnum_ONE"
 
-#MessageNested_Inner_InnerEnum: #MessageNested_Inner_Inner_InnerEnum_ZERO | #MessageNested_Inner_Inner_InnerEnum_ONE
+#MessageNested_Inner_InnerEnum: *#MessageNested_Inner_Inner_InnerEnum_ZERO | #MessageNested_Inner_Inner_InnerEnum_ONE
 
 #MessageNested_Inner_Inner_InnerEnum_ZERO: "Inner_InnerEnum_ZERO"
 
 #MessageNested_Inner_Inner_InnerEnum_ONE: "Inner_InnerEnum_ONE"
 
-#MessageNested_Inner_Inner_InnerEnum: #MessageNested_Inner_Inner_Inner_Inner_InnerEnum_ZERO | #MessageNested_Inner_Inner_Inner_Inner_InnerEnum_ONE
+#MessageNested_Inner_Inner_InnerEnum: *#MessageNested_Inner_Inner_Inner_Inner_InnerEnum_ZERO | #MessageNested_Inner_Inner_Inner_Inner_InnerEnum_ONE
 
 #MessageNested_Inner_Inner_Inner_Inner_InnerEnum_ZERO: "Inner_Inner_InnerEnum_ZERO"
 
@@ -81,7 +81,7 @@ let BuiltIn_float32_ = float32
 
 #Message: {
 	@protobuf(example.v1.Message)
-	field: BuiltIn_string_ @go(Field) @protobuf(1,name=field)
+	field: STRING_ @go(Field) @protobuf(1,name=field)
 }
 
 #Basic: {
@@ -92,65 +92,65 @@ let BuiltIn_float32_ = float32
 	_oneof__int32_optional: int32Optional
 
 	_oneof__message_optional: messageOptional
-	message:                  #Message         @go(Message) @protobuf(1,name=message)
-	messageNested:            #MessageNested   @go(MessageNested) @protobuf(2,name=message_nested)
-	enum:                     #Enum            @go(Enum) @protobuf(3,name=enum)
-	bool:                     BuiltIn_bool_    @go(Bool) @protobuf(4,name=bool)
-	string:                   BuiltIn_string_  @go(String_) @protobuf(5,name=string)
-	bytes:                    BuiltIn_bytes_   @go(Bytes) @protobuf(6,name=bytes)
-	int32:                    BuiltIn_int32_   @go(Int32) @protobuf(7,name=int32)
-	fixed32:                  BuiltIn_int32_   @go(Fixed32) @protobuf(8,name=fixed32)
-	uint32:                   BuiltIn_uint32_  @go(Uint32) @protobuf(9,name=uint32)
-	int64:                    BuiltIn_int64_   @go(Int64) @protobuf(10,name=int64)
-	fixed64:                  BuiltIn_int64_   @go(Fixed64) @protobuf(11,name=fixed64)
-	uint64:                   BuiltIn_uint64_  @go(Uint64) @protobuf(12,name=uint64)
-	float:                    BuiltIn_float32_ @go(Float) @protobuf(13,name=float)
-	double:                   BuiltIn_float64_ @go(Double) @protobuf(14,name=double)
+	message:                  #Message       @go(Message) @protobuf(1,name=message)
+	messageNested:            #MessageNested @go(MessageNested) @protobuf(2,name=message_nested)
+	enum:                     #Enum          @go(Enum) @protobuf(3,name=enum)
+	bool:                     BOOL_          @go(Bool) @protobuf(4,name=bool)
+	string:                   STRING_        @go(String_) @protobuf(5,name=string)
+	bytes:                    BYTES_         @go(Bytes) @protobuf(6,name=bytes)
+	int32:                    INT32_         @go(Int32) @protobuf(7,name=int32)
+	fixed32:                  INT32_         @go(Fixed32) @protobuf(8,name=fixed32)
+	uint32:                   UINT32_        @go(Uint32) @protobuf(9,name=uint32)
+	int64:                    INT64_         @go(Int64) @protobuf(10,name=int64)
+	fixed64:                  INT64_         @go(Fixed64) @protobuf(11,name=fixed64)
+	uint64:                   UINT64_        @go(Uint64) @protobuf(12,name=uint64)
+	float:                    FLOAT32_       @go(Float) @protobuf(13,name=float)
+	double:                   FLOAT64_       @go(Double) @protobuf(14,name=double)
 	mapStringString: {
-		[_]: BuiltIn_string_
+		[_]: STRING_
 	} @go(MapStringString) @protobuf(20,name=map_string_string)
 	mapStringMessage: {
 		[_]: #Message
 	} @go(MapStringMessage) @protobuf(21,name=map_string_message)
 	mapKeyConvertedToString: {
-		[_]: BuiltIn_string_
+		[_]: STRING_
 	} @go(MapKeyConvertedToString) @protobuf(22,name=map_key_converted_to_string)
 	mapStringInt32value: {
-		[_]: null | BuiltIn_int32_
+		[_]: *null | INT32_
 	} @go(MapStringInt32Value) @protobuf(23,name=map_string_int32value)
-	strings: [...BuiltIn_string_] @go(Strings) @protobuf(30,name=strings)
+	strings: [...STRING_] @go(Strings) @protobuf(30,name=strings)
 	messages: [...#Message] @go(Messages) @protobuf(31,name=messages)
-	oneofString?:       BuiltIn_string_ @go(OneofString) @protobuf(40,name=oneof_string)
-	oneofMessage?:      #Message        @go(OneofMessage) @protobuf(41,name=oneof_message)
-	oneofEnum?:         #Enum           @go(OneofEnum) @protobuf(42,name=oneof_enum)
-	int32NonOptional:   BuiltIn_int32_  @go(Int32NonOptional) @protobuf(51,name=int32_non_optional)
-	int32Optional?:     BuiltIn_int32_  @go(Int32Optional) @protobuf(52,name=int32_optional)
-	messageNonOptional: #Message        @go(MessageNonOptional) @protobuf(53,name=message_non_optional)
-	messageOptional?:   #Message        @go(MessageOptional) @protobuf(54,name=message_optional)
+	oneofString?:       STRING_  @go(OneofString) @protobuf(40,name=oneof_string)
+	oneofMessage?:      #Message @go(OneofMessage) @protobuf(41,name=oneof_message)
+	oneofEnum?:         #Enum    @go(OneofEnum) @protobuf(42,name=oneof_enum)
+	int32NonOptional:   INT32_   @go(Int32NonOptional) @protobuf(51,name=int32_non_optional)
+	int32Optional?:     INT32_   @go(Int32Optional) @protobuf(52,name=int32_optional)
+	messageNonOptional: #Message @go(MessageNonOptional) @protobuf(53,name=message_non_optional)
+	messageOptional?:   #Message @go(MessageOptional) @protobuf(54,name=message_optional)
 }
 
 #Basic_MapStringStringEntry: {
 	@protobuf(example.v1.Basic.MapStringStringEntry)
-	key:   BuiltIn_string_ @go(Key) @protobuf(1,name=key)
-	value: BuiltIn_string_ @go(Value) @protobuf(2,name=value)
+	key:   STRING_ @go(Key) @protobuf(1,name=key)
+	value: STRING_ @go(Value) @protobuf(2,name=value)
 }
 
 #Basic_MapStringMessageEntry: {
 	@protobuf(example.v1.Basic.MapStringMessageEntry)
-	key:   BuiltIn_string_ @go(Key) @protobuf(1,name=key)
-	value: #Message        @go(Value) @protobuf(2,name=value)
+	key:   STRING_  @go(Key) @protobuf(1,name=key)
+	value: #Message @go(Value) @protobuf(2,name=value)
 }
 
 #Basic_MapKeyConvertedToStringEntry: {
 	@protobuf(example.v1.Basic.MapKeyConvertedToStringEntry)
-	key:   BuiltIn_int32_  @go(Key) @protobuf(1,name=key)
-	value: BuiltIn_string_ @go(Value) @protobuf(2,name=value)
+	key:   INT32_  @go(Key) @protobuf(1,name=key)
+	value: STRING_ @go(Value) @protobuf(2,name=value)
 }
 
 #Basic_MapStringInt32ValueEntry: {
 	@protobuf(example.v1.Basic.MapStringInt32valueEntry)
-	key:   BuiltIn_string_       @go(Key) @protobuf(1,name=key)
-	value: null | BuiltIn_int32_ @go(Value) @protobuf(2,name=value)
+	key:   STRING_        @go(Key) @protobuf(1,name=key)
+	value: *null | INT32_ @go(Value) @protobuf(2,name=value)
 }
 
 #MessageNested: {
@@ -175,40 +175,40 @@ let BuiltIn_float32_ = float32
 
 #WellKnownTypes: {
 	@protobuf(example.v1.WellKnownTypes)
-	any: null | {
-		"@type"?: BuiltIn_string_
+	any: *null | {
+		"@type"?: STRING_
 		...
 	}       @go(Any) @protobuf(1,name=any)
-	struct: null | {
-		[BuiltIn_string_]: _
+	struct: *null | {
+		[STRING_]: _
 	}      @go(Struct) @protobuf(2,name=struct)
-	value: null | _ @go(Value) @protobuf(3,name=value)
+	value: *null | _ @go(Value) @protobuf(3,name=value)
 	list: [...] @go(List) @protobuf(4,name=list)
-	"null":    null                    @go(Null) @protobuf(5,name=null)
-	bool:      null | BuiltIn_bool_    @go(Bool) @protobuf(6,name=bool)
-	string:    null | BuiltIn_string_  @go(String_) @protobuf(7,name=string)
-	bytes:     null | BuiltIn_bytes_   @go(Bytes) @protobuf(8,name=bytes)
-	int32:     null | BuiltIn_int32_   @go(Int32) @protobuf(9,name=int32)
-	int64:     null | BuiltIn_int64_   @go(Int64) @protobuf(10,name=int64)
-	uint32:    null | BuiltIn_uint32_  @go(Uint32) @protobuf(11,name=uint32)
-	uint64:    null | BuiltIn_uint64_  @go(Uint64) @protobuf(12,name=uint64)
-	float:     null | BuiltIn_float32_ @go(Float) @protobuf(13,name=float)
-	double:    null | BuiltIn_float64_ @go(Double) @protobuf(14,name=double)
-	empty:     null | close({})        @go(Empty) @protobuf(15,name=empty)
-	timestamp: null | BuiltIn_string_  @go(Timestamp) @protobuf(16,name=timestamp)
-	duration:  null | BuiltIn_string_  @go(Duration) @protobuf(17,name=duration)
-	fieldMask: null | {
-		paths: [...BuiltIn_string_]
+	"null":    null              @go(Null) @protobuf(5,name=null)
+	bool:      *null | BOOL_     @go(Bool) @protobuf(6,name=bool)
+	string:    *null | STRING_   @go(String_) @protobuf(7,name=string)
+	bytes:     *null | BYTES_    @go(Bytes) @protobuf(8,name=bytes)
+	int32:     *null | INT32_    @go(Int32) @protobuf(9,name=int32)
+	int64:     *null | INT64_    @go(Int64) @protobuf(10,name=int64)
+	uint32:    *null | UINT32_   @go(Uint32) @protobuf(11,name=uint32)
+	uint64:    *null | UINT64_   @go(Uint64) @protobuf(12,name=uint64)
+	float:     *null | FLOAT32_  @go(Float) @protobuf(13,name=float)
+	double:    *null | FLOAT64_  @go(Double) @protobuf(14,name=double)
+	empty:     *null | close({}) @go(Empty) @protobuf(15,name=empty)
+	timestamp: *null | STRING_   @go(Timestamp) @protobuf(16,name=timestamp)
+	duration:  *null | STRING_   @go(Duration) @protobuf(17,name=duration)
+	fieldMask: *null | {
+		paths: [...STRING_]
 	} @go(FieldMask) @protobuf(18,name=field_mask)
 }
 
 #FieldOptions: {
 	@protobuf(example.v1.FieldOptions)
-	name:          BuiltIn_string_ @go(Name) @protobuf(1,name=name)
+	name:          STRING_ @go(Name) @protobuf(1,name=name)
 	name:          !="x"
-	age:           BuiltIn_int32_ @go(Age) @protobuf(2,name=age)
+	age:           INT32_ @go(Age) @protobuf(2,name=age)
 	age:           <150
-	ageOfNextYear: BuiltIn_int32_ @go(AgeOfNextYear) @protobuf(3,name=age_of_next_year)
+	ageOfNextYear: INT32_ @go(AgeOfNextYear) @protobuf(3,name=age_of_next_year)
 	ageOfNextYear: age + 1
 }
 
@@ -234,7 +234,7 @@ let BuiltIn_float32_ = float32
 
 	// message leading
 	// message leading
-	name: BuiltIn_string_ @go(Name) @protobuf(1,name=name)
+	name: STRING_ @go(Name) @protobuf(1,name=name)
 	// message field trailing
 	// message field trailing
 }
@@ -260,5 +260,5 @@ let BuiltIn_float32_ = float32
 
 	// message leading
 	// message leading
-	name: BuiltIn_string_ @go(Name) @protobuf(1,name=name) // message field trailing
+	name: STRING_ @go(Name) @protobuf(1,name=name) // message field trailing
 }
