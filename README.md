@@ -12,34 +12,34 @@ Complies with [protojson](https://protobuf.dev/programming-guides/proto3/#json).
 |-----------------|-------------------------------------|------------------------------------|
 | `map<K, V>`     | `{ [string]: V }`                   | All keys are converted to strings. |
 | `repeated V`    | `[...V]`                            |                                    |
-| `bool`          | `bool`                              |                                    |
-| `string`        | `string`                            |                                    |
-| `bytes`         | `bytes`                             |                                    |
-| `int32`         | `int32`                             |                                    |
-| `fixed32`       | `int32`                             |                                    |
-| `uint32`        | `uint32`                            |                                    |
-| `int64`         | `int64`                             |                                    |
-| `fixed64`       | `fixed64`                           |                                    |
-| `uint32`        | `uint64`                            |                                    |
-| `float`         | `float32`                           |                                    |
-| `double`        | `float64`                           |                                    |
-| `Any`           | `null \| { "@type": string, ... }`  |                                    |
-| `Struct`        | `null \| { [string]: _ }`           |                                    |
-| `Value`         | `null \| _`                         |                                    |
-| `ListValue`     | `null \| [...]`                     |                                    |
-| `NullValue`     | `null \| null`                      |                                    |
-| `BoolValue`     | `null \| bool`                      |                                    |
-| `StringValue`   | `null \| string`                    |                                    |
-| `Int32Value`    | `null \| int32`                     |                                    |
-| `UInt32Value`   | `null \| uint32`                    |                                    |
-| `Int64Value`    | `null \| int64`                     |                                    |
-| `UInt64Value`   | `null \| uint64`                    |                                    |
-| `FloatValue`    | `null \| float32`                   |                                    |
-| `DoubleValue`   | `null \| double`                    |                                    |
-| `Empty`         | `null \| close({})`                 |                                    |
-| `Timestamp`     | `null \| string`                    | See the [`Timestamp`](#timestamp) section for more information. |
-| `Duration`      | `null \| string`                    | See the [`Duration`](#duration) section for more information. |
-| `FieldMask`     | `null \| { paths: [...string] }`    |                                    |
+| `bool`          | `*false \| bool`                    |                                    |
+| `string`        | `*"" \| string`                     |                                    |
+| `bytes`         | `*'' \| bytes`                      |                                    |
+| `int32`         | `*0 \| int32`                       |                                    |
+| `fixed32`       | `*0 \| int32`                       |                                    |
+| `uint32`        | `*0 \| uint32`                      |                                    |
+| `int64`         | `*0 \| int64`                       |                                    |
+| `fixed64`       | `*0 \| fixed64`                     |                                    |
+| `uint32`        | `*0 \| uint64`                      |                                    |
+| `float`         | `*0 \| float32`                     |                                    |
+| `double`        | `*0 \| float64`                     |                                    |
+| `Any`           | `*null \| { "@type": string, ... }` |                                    |
+| `Struct`        | `*null \| { [string]: _ }`          |                                    |
+| `Value`         | `*null \| _`                        |                                    |
+| `ListValue`     | `*null \| [...]`                    |                                    |
+| `NullValue`     | `*null \| null`                     |                                    |
+| `BoolValue`     | `*null \| bool`                     |                                    |
+| `StringValue`   | `*null \| string`                   |                                    |
+| `Int32Value`    | `*null \| int32`                    |                                    |
+| `UInt32Value`   | `*null \| uint32`                   |                                    |
+| `Int64Value`    | `*null \| int64`                    |                                    |
+| `UInt64Value`   | `*null \| uint64`                   |                                    |
+| `FloatValue`    | `*null \| float32`                  |                                    |
+| `DoubleValue`   | `*null \| double`                   |                                    |
+| `Empty`         | `*null \| close({})`                |                                    |
+| `Timestamp`     | `*null \| string`                   | See the [`Timestamp`](#timestamp) section for more information. |
+| `Duration`      | `*null \| string`                   | See the [`Duration`](#duration) section for more information. |
+| `FieldMask`     | `*null \| { paths: [...string] }`   |                                    |
 
 ### Message
 
@@ -57,10 +57,11 @@ To:
 
 ```cue
 #Foo: {
-  name: string
+  name: *"" | string
   name: !="xxx"
-  age: int32
+  age: *0 | int32
   age: <100
+  ageNextYear: *0 | int32
   ageNextYear: age+1
 }
 ```
@@ -77,7 +78,7 @@ enum Bar {
 To:
 
 ```cue
-#Bar: #Bar_ZERO | #Bar_ONE
+#Bar: *#Bar_ZERO | #Bar_ONE
 
 #Bar_ZERO: "ZERO"
 #Bar_ONE:  "ONE"

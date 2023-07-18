@@ -41,9 +41,12 @@ func (g *Generator) wellKnownTypeEnum(ctx context.Context, e *protogen.Enum) (as
 
 func orNull(a ast.Expr) ast.Expr {
 	return &ast.BinaryExpr{
-		X: &ast.BasicLit{
-			Kind:  token.NULL,
-			Value: "null",
+		X: &ast.UnaryExpr{
+			Op: token.MUL,
+			X: &ast.BasicLit{
+				Kind:  token.NULL,
+				Value: "null",
+			},
 		},
 		Op: token.OR,
 		Y:  a,

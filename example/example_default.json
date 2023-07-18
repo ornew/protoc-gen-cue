@@ -1,0 +1,66 @@
+{
+    "basic": {
+        "message": {
+            "field": ""
+        },
+        "messageNested": {
+            "inner": {
+                "innerEnum": "Inner_InnerEnum_ZERO",
+                "innerInnerEnum": "Inner_Inner_InnerEnum_ZERO"
+            },
+            "innerInner": {
+                "enum": "Inner_Inner_InnerEnum_ZERO"
+            },
+            "innerEnum": "InnerEnum_ZERO",
+            "innerInnerEnum": "Inner_InnerEnum_ZERO",
+            "innerInnerInnerEnum": "Inner_Inner_InnerEnum_ZERO"
+        },
+        "enum": "ZERO",
+        "bool": false,
+        "string": "",
+        "bytes": "",
+        "int32": 0,
+        "fixed32": 0,
+        "uint32": 0,
+        "int64": 0,
+        "fixed64": 0,
+        "uint64": 0,
+        "float": 0,
+        "double": 0,
+        "mapStringString": {},
+        "mapStringMessage": {},
+        "mapKeyConvertedToString": {},
+        "mapStringInt32value": {},
+        "strings": [],
+        "messages": [],
+        "int32NonOptional": 0,
+        "messageNonOptional": {
+            "field": ""
+        }
+    },
+    "wellKnownTypes": {
+        "any": null,
+        "struct": null,
+        "value": null,
+        "list": [],
+        "null": null,
+        "bool": null,
+        "string": null,
+        "bytes": null,
+        "int32": null,
+        "int64": null,
+        "uint32": null,
+        "uint64": null,
+        "float": null,
+        "double": null,
+        "empty": null,
+        "timestamp": null,
+        "duration": null,
+        "fieldMask": null
+    },
+    "fieldOptions": {
+        "name": "",
+        "age": 0,
+        "ageOfNextYear": 1
+    }
+}

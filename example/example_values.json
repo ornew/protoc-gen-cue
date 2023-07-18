@@ -93,7 +93,7 @@
         "duration": "1h2m3s",
         "fieldMask": {
             "paths": [
-                "a.b.c."
+                "a.b.c"
             ]
         }
     },
