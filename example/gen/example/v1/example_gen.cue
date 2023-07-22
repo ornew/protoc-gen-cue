@@ -6,15 +6,15 @@
 package v1
 
 @protobuf(example.v1,syntax=proto3)
-let STRING_ = *"" | string
 let BOOL_ = *false | bool
+let INT32_ = *0 | int32
+let INT64_ = *0 | int64
 let UINT64_ = *0 | uint64
+let STRING_ = *"" | string
+let BYTES_ = *'' | bytes
+let UINT32_ = *0 | uint32
 let FLOAT32_ = *0 | float32
 let FLOAT64_ = *0 | float64
-let BYTES_ = *'' | bytes
-let INT32_ = *0 | int32
-let UINT32_ = *0 | uint32
-let INT64_ = *0 | int64
 
 #Enum: *#Enum_ZERO | #Enum_ONE
 
@@ -197,9 +197,7 @@ let INT64_ = *0 | int64
 	empty:     *null | close({}) @go(Empty) @protobuf(15,name=empty)
 	timestamp: *null | STRING_   @go(Timestamp) @protobuf(16,name=timestamp)
 	duration:  *null | STRING_   @go(Duration) @protobuf(17,name=duration)
-	fieldMask: *null | {
-		paths: [...STRING_]
-	} @go(FieldMask) @protobuf(18,name=field_mask)
+	fieldMask: *null | STRING_   @go(FieldMask) @protobuf(18,name=field_mask)
 }
 
 #FieldOptions: {

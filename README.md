@@ -39,7 +39,7 @@ Complies with [protojson](https://protobuf.dev/programming-guides/proto3/#json).
 | `Empty`         | `*null \| close({})`                |                                    |
 | `Timestamp`     | `*null \| string`                   | See the [`Timestamp`](#timestamp) section for more information. |
 | `Duration`      | `*null \| string`                   | See the [`Duration`](#duration) section for more information. |
-| `FieldMask`     | `*null \| { paths: [...string] }`   |                                    |
+| `FieldMask`     | `*null \| string`                   |                                    |
 
 ### Message
 

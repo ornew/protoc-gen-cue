@@ -132,21 +132,8 @@ func (g *Generator) wellKnownTypeMessage(ctx context.Context, m *protogen.Messag
 		x := g.UseBuiltinType(ctx, "string")
 		return orNull(x), nil
 	case "google.protobuf.FieldMask":
-		fm := &ast.StructLit{
-			Elts: []ast.Decl{
-				&ast.Field{
-					Label: &ast.Ident{Name: "paths"},
-					Value: &ast.ListLit{
-						Elts: []ast.Expr{
-							&ast.Ellipsis{
-								Type: g.UseBuiltinType(ctx, "string"),
-							},
-						},
-					},
-				},
-			},
-		}
-		return orNull(fm), nil
+		x := g.UseBuiltinType(ctx, "string")
+		return orNull(x), nil
 	}
 	return nil, nil
 }
